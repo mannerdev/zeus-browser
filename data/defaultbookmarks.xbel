@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xbel>
+<xbel version="1.0">
+    <folder folded="yes">
+        <title>Bookmarks Bar</title>
+        <bookmark href="http://facebook.com/">
+            <title>Facebook</title>
+        </bookmark>
+    </folder>
+    <folder folded="yes">
+        <title>Top8</title>
+        <bookmark href="http://asd.com">
+            <title>asd</title>
+        </bookmark>
+    </folder>
+   <folder folded="yes">
+        <title>Bookmarks Menu</title>
+        <bookmark href="http://reddit.com/">
+            <title>reddit.com: what's new online!</title>
+        </bookmark>
+    </folder>
+</xbel>
