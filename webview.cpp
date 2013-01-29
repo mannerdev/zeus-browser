@@ -48,6 +48,7 @@
 #include "tabwidget.h"
 #include "webview.h"
 
+
 #include <QtGui/QClipboard>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
@@ -128,6 +129,7 @@ QWebPage *WebPage::createWindow(QWebPage::WebWindowType type)
     }
     BrowserApplication::instance()->newMainWindow();
     BrowserMainWindow *mainWindow = BrowserApplication::instance()->mainWindow();
+
     return mainWindow->currentTab()->page();
 }
 
@@ -193,7 +195,6 @@ void WebPage::handleUnsupportedContent(QNetworkReply *reply)
         mainFrame()->setHtml(html, reply->url());
     }
 }
-
 
 WebView::WebView(QWidget* parent)
     : QWebView(parent)
@@ -269,25 +270,32 @@ void WebView::loadFinished()
 
 void WebView::loadUrl(const QUrl &url)
 {
-    if(url.toString() == "about:home" ) {
+    if(url.toString() == "about:home") {
+
         QFile file("://home.html");
         bool isOpened = file.open(QIODevice::ReadOnly);
         Q_ASSERT(isOpened);
         Q_UNUSED(isOpened)
+        page()->mainFrame()->addToJavaScriptWindowObject("js", &js);
+        BookmarksManager *manager =  BrowserApplication::bookmarksManager();
 
-        BookmarksManager *manager;
+        QList<QString> url;
 
-        QList<QString*> node;
-        node = manager->bookmarksTop();
-
+        url = manager->bookmarksTop();
 
         QString html = QString(QLatin1String(file.readAll()))
-                .arg("<a></a>")
-                .arg("<a>+</a>")
-                .arg('+');
-
+                .arg((url.count() >= 1)? "<a href="+url[0]+">"+url[1]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 3)? "<a href="+url[2]+">"+url[3]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 5)? "<a href="+url[4]+">"+url[5]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 7)? "<a href="+url[6]+">"+url[7]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 9)? "<a href="+url[8]+">"+url[9]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 11)? "<a href="+url[10]+">"+url[11]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 13)? "<a href="+url[12]+">"+url[13]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>")
+                .arg((url.count() >= 15)? "<a href="+url[14]+">"+url[15]+"</a>" : "<a class='none' onclick='addDialog()'>+</a>");
 
         page()->mainFrame()->setHtml(html);
+
+        m_initialUrl = "about:home";
 
         return;
     }

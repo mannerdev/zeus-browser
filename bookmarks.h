@@ -73,10 +73,10 @@ public:
     void changeExpanded();
 
     BookmarkNode *bookmarks();
+    QList<QString> bookmarksTop();
     BookmarkNode *menu();
+    BookmarkNode *top8();
     BookmarkNode *toolbar();
-
-    QList<QString *> bookmarksTop();
 
     BookmarksModel *bookmarksModel();
     QUndoStack *undoRedoStack() { return &m_commands; };

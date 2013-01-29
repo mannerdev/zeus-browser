@@ -3,12 +3,14 @@
 
 #include <QObject>
 #include <QString>
+#include <QtWebKit>
 
-class JsAPI : QObject
-{
-    Q_OBJECT
-public slots:
-    void addTop8(const QString &url, int id );
+class JsAPI : public QObject {
+       Q_OBJECT
+
+public Q_SLOTS:
+    void addTop8(const QString &url, const QString &title);
+    void test();
 };
 
 #endif // JSAPI_H

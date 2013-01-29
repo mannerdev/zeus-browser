@@ -2,11 +2,14 @@
 <head>
 <title>Welcome to Bed</title>
 <style>
+    body{
+        width: 97%;
+    }
+
     #top4{
-        width: 900px;
+        width: 100%;
         height: 150px;
-        margin-left: auto;
-        margin-right: auto;
+        text-align:center;
         margin-top: 15%;
     }
     #top4 li{
@@ -32,10 +35,9 @@
     }
 
     #top4_2{
-        width: 900px;
+        width: 100%;
         height: 150px;
-        margin-left: auto;
-        margin-right: auto;
+        text-align:center;
     }
     #top4_2 li{
         display: inline;
@@ -72,10 +74,53 @@
         padding: 10px;
         padding-top: 40px;
     }
-
+    #addDialog {
+        display:none;
+        position: fixed;
+        z-index: 1000px;
+        margin-left: 40%;
+        background-color: white;
+        border: black solid 1px;
+        box-shadow: 0px 0px 10px black;
+        border-radius: 10px;
+    }
+    #addDialog form{
+        padding-left: 100px;
+        padding-right: 100px;
+        padding-bottom: 20px;
+    }
 </style>
 </head>
 <body>
+<script>
+    var url;
+    var title;
+    function addDialog() {
+        document.getElementById("addDialog").style.display="block";
+    }
+    function closeDialog() {
+        document.getElementById("addDialog").style.display="none";
+    }
+
+    function addBookmark() {
+        url = document.getElementById("url").value;
+        title = document.getElementById("title").value;
+        document.getElementById("addDialog").style.display="none";
+
+        js.addTop8(url, title);
+    }
+
+</script>
+
+    <div id="addDialog">
+        <small><a style="float:right; color:red; margin-right:10px; text-decoration:none;" href="#" onclick="closeDialog()">x</a></small>
+        <form>
+            <h2>Add Site to Top8</h2>
+            Title: <input type="text" name="test" id="title" value=""><br>
+            Url: &nbsp;&nbsp;<input type="text" id="url" value=""><br>
+            <input style="float:right;" type="button" value="Add" onclick="addBookmark()">
+        </form>
+    </div>
     <ul id="top4">
         <li>%1</li>
         <li>%2</li>
@@ -86,7 +131,7 @@
         <li>%5</li>
         <li>%6</li>
         <li>%7</li>
-        <li>&8</li>
+        <li>%8</li>
     </ul>
     <div id="footer">
         <small>&copy;Bed Browser</small>

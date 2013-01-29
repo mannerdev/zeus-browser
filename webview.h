@@ -43,6 +43,7 @@
 #define WEBVIEW_H
 
 #include <QWebView>
+#include "jsapi.h"
 
 QT_BEGIN_NAMESPACE
 class QAuthenticator;
@@ -90,6 +91,8 @@ public:
     WebView(QWidget *parent = 0);
     WebPage *webPage() const { return m_page; }
 
+    JsAPI js;
+
     void loadUrl(const QUrl &url);
     QUrl url() const;
 
@@ -108,6 +111,7 @@ private slots:
     void setStatusBarText(const QString &string);
     void downloadRequested(const QNetworkRequest &request);
     void openLinkInNewTab();
+
 
 private:
     QString m_statusBarText;

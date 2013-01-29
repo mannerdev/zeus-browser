@@ -64,6 +64,7 @@
 
 #define BOOKMARKBAR "Bookmarks Bar"
 #define BOOKMARKMENU "Bookmarks Menu"
+#define TOP8 "Top8"
 
 BookmarksManager::BookmarksManager(QObject *parent)
     : QObject(parent)
@@ -111,6 +112,7 @@ void BookmarksManager::load()
 
     BookmarkNode *toolbar = 0;
     BookmarkNode *menu = 0;
+    BookmarkNode *top = 0;
     QList<BookmarkNode*> others;
     for (int i = m_bookmarkRootNode->children().count() - 1; i >= 0; --i) {
         BookmarkNode *node = m_bookmarkRootNode->children().at(i);
@@ -130,6 +132,15 @@ void BookmarksManager::load()
             if (node->title == tr(BOOKMARKMENU) && !menu) {
                 menu = node;
             }
+
+            // Automatically convert
+            if (node->title == tr(TOP8) && !top) {
+                node->title = tr(TOP8);
+            }
+            if (node->title == tr(TOP8) && !top) {
+                top = node;
+            }
+
         } else {
             others.append(node);
         }
@@ -148,6 +159,13 @@ void BookmarksManager::load()
         menu->title = tr(BOOKMARKMENU);
     } else {
         m_bookmarkRootNode->add(menu);
+    }
+
+    if (!top) {
+        top = new BookmarkNode(BookmarkNode::Folder, m_bookmarkRootNode);
+        top->title = tr(TOP8);
+    } else {
+        m_bookmarkRootNode->add(top);
     }
 
     for (int i = 0; i < others.count(); ++i)
@@ -214,20 +232,21 @@ BookmarkNode *BookmarksManager::bookmarks()
     return m_bookmarkRootNode;
 }
 
-QList<QString*> BookmarksManager::bookmarksTop()
+    // FIX BUG!!!!!!!!!!!!!!!!!!!!!!!!
+QList<QString> BookmarksManager::bookmarksTop()
 {
     if (!m_loaded)
         load();
-    QList<QString*> list;
-    qDebug() << m_bookmarkRootNode->children().at(2)->children().at(0)->title;
-    qDebug() << m_bookmarkRootNode->children().at(2)->children().at(0)->url;
 
-    list.append(&m_bookmarkRootNode->children().at(2)->children().at(0)->title);
-    list.append(&m_bookmarkRootNode->children().at(2)->children().at(0)->url);
+    QList<QString> list;
+
+    for(int i = 0; i < m_bookmarkRootNode->children().at(2)->children().count(); i++ ) {
+        list.append(m_bookmarkRootNode->children().at(2)->children().at(i)->url);
+        list.append(m_bookmarkRootNode->children().at(2)->children().at(i)->title);
+    }
 
     return list;
 }
-
 BookmarkNode *BookmarksManager::menu()
 {
     if (!m_loaded)
@@ -236,6 +255,19 @@ BookmarkNode *BookmarksManager::menu()
     for (int i = m_bookmarkRootNode->children().count() - 1; i >= 0; --i) {
         BookmarkNode *node = m_bookmarkRootNode->children().at(i);
         if (node->title == tr(BOOKMARKMENU))
+            return node;
+    }
+    Q_ASSERT(false);
+    return 0;
+}
+BookmarkNode *BookmarksManager::top8()
+{
+    if (!m_loaded)
+        load();
+
+    for (int i = m_bookmarkRootNode->children().count() - 1; i >= 0; --i) {
+        BookmarkNode *node = m_bookmarkRootNode->children().at(i);
+        if (node->title == tr(TOP8))
             return node;
     }
     Q_ASSERT(false);
