@@ -1,44 +1,3 @@
-/****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
-
 #include "browsermainwindow.h"
 
 #include "autosaver.h"
@@ -433,12 +392,9 @@ void BrowserMainWindow::setupMenu()
 
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     toolsMenu->addAction(tr("Web &Search"), this, SLOT(slotWebSearch()), QKeySequence(tr("Ctrl+K", "Web Search")));
-    a = toolsMenu->addAction(tr("Enable Web &Inspector"), this, SLOT(slotToggleInspector(bool)));
-    a->setCheckable(true);
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
-    helpMenu->addAction(tr("About &Bed Browser"), this, SLOT(slotAboutApplication()));
+    helpMenu->addAction(tr("About &Zeus"), this, SLOT(slotAboutApplication()));
 }
 
 void BrowserMainWindow::setupToolBar()
@@ -589,12 +545,12 @@ void BrowserMainWindow::slotUpdateStatusbar(const QString &string)
 void BrowserMainWindow::slotUpdateWindowTitle(const QString &title)
 {
     if (title.isEmpty()) {
-        setWindowTitle(tr("Bed Browser"));
+        setWindowTitle(tr("Zeus"));
     } else {
 #if defined(Q_WS_MAC)
         setWindowTitle(title);
 #else
-        setWindowTitle(tr("%1 - Bed Browser", "Page title and Browser name").arg(title));
+        setWindowTitle(tr("%1 - Zeus", "Page title and Browser name").arg(title));
 #endif
     }
 }
@@ -603,7 +559,9 @@ void BrowserMainWindow::slotAboutApplication()
 {
     QMessageBox::about(this, tr("About"), tr(
         "Version %1"
-        "<p>This is the Alpha version of BED<p>"
+        "<p>This is the Alpha version of Zeus.<p>"
+        "<p>You can follow the development process or report bugs here:   <a href=\"http://mannerdev.github.com/zeus-browser/\">GitHub Webpage</a></p>"
+        "<p>Or follow me on <a href=\"https://twitter.com/mannerdev\">Twitter</a>.</p>"
         "<p>QtWebKit is based on the Open Source WebKit Project developed at <a href=\"http://webkit.org/\">http://webkit.org/</a>."
         ).arg(QCoreApplication::applicationVersion()));
 }
@@ -802,20 +760,6 @@ void BrowserMainWindow::slotWebSearch()
 {
     m_toolbarSearch->lineEdit()->selectAll();
     m_toolbarSearch->lineEdit()->setFocus();
-}
-
-void BrowserMainWindow::slotToggleInspector(bool enable)
-{
-    /*QWebSettings::globalSettings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, enable);
-    if (enable) {
-        int result = QMessageBox::question(this, tr("Web Inspector"),
-                                           tr("The web inspector will only work correctly for pages that were loaded after enabling.\n"
-                                           "Do you want to reload all pages?"),
-                                           QMessageBox::Yes | QMessageBox::No);
-        if (result == QMessageBox::Yes) {
-            m_tabWidget->reloadAllTabs();
-        }
-    }*/
 }
 
 void BrowserMainWindow::slotSwapFocus()

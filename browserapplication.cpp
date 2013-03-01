@@ -1,44 +1,3 @@
-/****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
-
 #include "browserapplication.h"
 
 #include "bookmarks.h"
@@ -80,7 +39,7 @@ BrowserApplication::BrowserApplication(int &argc, char **argv)
     , m_localServer(0)
 {
     QCoreApplication::setOrganizationName(QLatin1String("Manner"));
-    QCoreApplication::setApplicationName(QLatin1String("Bed Browser"));
+    QCoreApplication::setApplicationName(QLatin1String("Zeus"));
     QCoreApplication::setApplicationVersion(QLatin1String("0.1"));
 
 #ifdef Q_WS_QWS
@@ -124,7 +83,7 @@ BrowserApplication::BrowserApplication(int &argc, char **argv)
 
 #ifndef QT_NO_OPENSSL
     if (!QSslSocket::supportsSsl()) {
-    QMessageBox::information(0, "Demo Browser",
+    QMessageBox::information(0, "Zeus",
                  "This system does not support OpenSSL. SSL websites will not be available.");
     }
 #endif
@@ -244,6 +203,7 @@ void BrowserApplication::loadSettings()
     defaultSettings->setFontSize(QWebSettings::DefaultFixedFontSize, fixedFont.pointSize());
 
     defaultSettings->setAttribute(QWebSettings::JavascriptEnabled, settings.value(QLatin1String("enableJavascript"), true).toBool());
+    defaultSettings->setAttribute(QWebSettings::JavaEnabled, settings.value(QLatin1String("enablePlugins"), true).toBool());
     defaultSettings->setAttribute(QWebSettings::PluginsEnabled, settings.value(QLatin1String("enablePlugins"), true).toBool());
     defaultSettings->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
 
@@ -459,3 +419,14 @@ QIcon BrowserApplication::icon(const QUrl &url) const
     return m_defaultIcon.pixmap(16, 16);
 }
 
+QString BrowserApplication::dataFilePath(const QString &fileName)
+{
+    QString directory = QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0];
+    if (directory.isEmpty())
+        directory = QDir::homePath() + QLatin1String("/.") + QCoreApplication::applicationName();
+    if (!QFile::exists(directory)) {
+        QDir dir;
+        dir.mkpath(directory);
+    }
+    return directory + QLatin1String("/") + fileName;
+}
