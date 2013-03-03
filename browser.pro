@@ -15,7 +15,8 @@ FORMS += \
     history.ui \
     passworddialog.ui \
     proxy.ui \
-    settings.ui
+    settings.ui \
+    adblock/adblockdialog.ui
 
 HEADERS += \
     autosaver.h \
@@ -38,7 +39,18 @@ HEADERS += \
     urllineedit.h \
     webview.h \
     xbel.h \
-    jsapi.h
+    jsapi.h \
+    adblock/adblocksubscription.h \
+    adblock/adblockschemeaccesshandler.h \
+    adblock/adblockrule.h \
+    adblock/adblockpage.h \
+    adblock/adblocknetwork.h \
+    adblock/adblockmodel.h \
+    adblock/adblockmanager.h \
+    adblock/adblockdialog.h \
+    adblock/adblockblockednetworkreply.h \
+    treesortfilterproxymodel.h \
+    schemeaccesshandler.h
 
 SOURCES += \
     autosaver.cpp \
@@ -62,7 +74,18 @@ SOURCES += \
     webview.cpp \
     xbel.cpp \
     main.cpp \
-    jsapi.cpp
+    jsapi.cpp \
+    adblock/adblocksubscription.cpp \
+    adblock/adblockschemeaccesshandler.cpp \
+    adblock/adblockrule.cpp \
+    adblock/adblockpage.cpp \
+    adblock/adblocknetwork.cpp \
+    adblock/adblockmodel.cpp \
+    adblock/adblockmanager.cpp \
+    adblock/adblockdialog.cpp \
+    adblock/adblockblockednetworkreply.cpp \
+    treesortfilterproxymodel.cpp \
+    schemeaccesshandler.cpp
 
 RESOURCES += data/data.qrc htmls/htmls.qrc
 
@@ -102,4 +125,10 @@ target.path = /bedbrowser
 INSTALLS += target
 
 OTHER_FILES += \
-    htmls/home.html
+    htmls/home.html \
+    adblock/adblock.pri \
+    README.md \
+    Info_mac.plist \
+    browser.rc \
+    browser.pro.user \
+    browser.ico

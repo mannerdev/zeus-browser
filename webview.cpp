@@ -1,43 +1,6 @@
-/****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+#include "adblock/adblockdialog.h"
+#include "adblock/adblockmanager.h"
+#include "adblock/adblockpage.h"
 
 #include "browserapplication.h"
 #include "browsermainwindow.h"
@@ -218,21 +181,25 @@ WebView::WebView(QWidget* parent)
 
 void WebView::contextMenuEvent(QContextMenuEvent *event)
 {
+    QMenu *menu = new QMenu(this);
     QWebHitTestResult r = page()->mainFrame()->hitTestContent(event->pos());
+
     if (!r.linkUrl().isEmpty()) {
-        QMenu menu(this);
-        menu.addAction(pageAction(QWebPage::OpenLinkInNewWindow));
-        menu.addAction(tr("Open in New Tab"), this, SLOT(openLinkInNewTab()));
-        menu.addSeparator();
-        menu.addAction(pageAction(QWebPage::DownloadLinkToDisk));
+         qDebug() << "Normal Click";
+        menu->addAction(pageAction(QWebPage::OpenLinkInNewWindow));
+        menu->addAction(tr("Open in New Tab"), this, SLOT(openLinkInNewTab()));
+        menu->addSeparator();
+        menu->addAction(pageAction(QWebPage::DownloadLinkToDisk));
         // Add link to bookmarks...
-        menu.addSeparator();
-        menu.addAction(pageAction(QWebPage::CopyLinkToClipboard));
+        menu->addSeparator();
+        menu->addAction(pageAction(QWebPage::CopyLinkToClipboard));
+        menu->addAction(tr("Block Image"), this, SLOT(blockImage()))->setData(r.imageUrl().toString());
         if (page()->settings()->testAttribute(QWebSettings::DeveloperExtrasEnabled))
-            menu.addAction(pageAction(QWebPage::InspectElement));
-        menu.exec(mapToGlobal(event->pos()));
+            menu->addAction(pageAction(QWebPage::InspectElement));
+        menu->exec(mapToGlobal(event->pos()));
         return;
     }
+    delete menu;
     QWebView::contextMenuEvent(event);
 }
 
@@ -266,6 +233,10 @@ void WebView::loadFinished()
                    << "Url:" << url();
     }
     m_progress = 0;
+
+    AdBlockManager::instance()->page()->applyRulesToPage(page());
+
+    //BrowserApplication::instance()->autoFillManager()->fill(page());
 }
 
 void WebView::loadUrl(const QUrl &url)
@@ -344,5 +315,14 @@ void WebView::setStatusBarText(const QString &string)
 void WebView::downloadRequested(const QNetworkRequest &request)
 {
     BrowserApplication::downloadManager()->download(request);
+}
+
+void WebView::blockImage()
+{
+    if (QAction *action = qobject_cast<QAction*>(sender())) {
+        QString imageUrl = action->data().toString();
+        AdBlockDialog *dialog = AdBlockManager::instance()->showDialog();
+        dialog->addCustomRule(imageUrl);
+    }
 }
 

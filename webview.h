@@ -118,6 +118,7 @@ private:
     QUrl m_initialUrl;
     int m_progress;
     WebPage *m_page;
+    void blockImage();
 };
 
 #endif
