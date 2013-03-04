@@ -561,7 +561,7 @@ void BrowserMainWindow::slotAboutApplication()
         "Version %1"
         "<p>This is the Alpha version of Zeus.<p>"
         "<p>You can follow the development process or report bugs here:   <a href=\"http://mannerdev.github.com/zeus-browser/\">GitHub Webpage</a></p>"
-        "<p>Or follow me on <a href=\"https://twitter.com/mannerdev\">Twitter</a>.</p>"
+        "<p>Or follow me on <a href=\"http://twitter.com/mannerdev\">Twitter</a>.</p>"
         "<p>QtWebKit is based on the Open Source WebKit Project developed at <a href=\"http://webkit.org/\">http://webkit.org/</a>."
         ).arg(QCoreApplication::applicationVersion()));
 }
