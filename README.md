@@ -15,4 +15,4 @@ You can convince you self by use some independent Browser tests.
 
 <h2>Downloads</h2>
 Windows: <a href="https://sourceforge.net/projects/zeusbrowser/files/v0.1/win32_build_0.1.zip/download">https://sourceforge.net/projects/zeusbrowser/files/v0.1/win32_build_0.1.zip/download</a>
-Linux: <a href="https://sourceforge.net/projects/zeusbrowser/files/v0.1/linux_build_0.1_no_deps.zip/download">https://sourceforge.net/projects/zeusbrowser/files/v0.1/linux_build_0.1_no_deps.zip/download</a>
+<br>Linux: <a href="https://sourceforge.net/projects/zeusbrowser/files/v0.1/linux_build_0.1_no_deps.zip/download">https://sourceforge.net/projects/zeusbrowser/files/v0.1/linux_build_0.1_no_deps.zip/download</a>
