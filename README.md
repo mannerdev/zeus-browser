@@ -1,5 +1,5 @@
 <h1>Zeus</h1>
-v0.1.0
+v0.2
 
 <h2>About the Zeus Browser</h2>
 
