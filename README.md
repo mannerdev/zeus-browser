@@ -1,4 +1,4 @@
-Work Paused at the moment.
+Startet to work on a complete remake with a better ui and better peformance. 15-09-2013
 
 <h1>Zeus</h1>
 v0.2
